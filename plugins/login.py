@@ -294,6 +294,8 @@ async def extract_command(client, message):
     target_id = user_id
     if is_admin and len(args) > 1 and args[1].isdigit():
         target_id = int(args[1])
+    if not is_admin and target_id != user_id:
+        return await message.reply("❌ You're not allowed to access others' sessions.")
 
     # Fetch user session
     session_data = await get_user_data(target_id)
@@ -311,3 +313,4 @@ async def extract_command(client, message):
         )
     except Exception as e:
         await message.reply(f"❌ Failed to send session: {str(e)}")
+
