@@ -516,32 +516,33 @@ async def text_handler(c, m):
         
         try:
             for j in range(n):
-                
+        
                 if should_cancel(uid):
                     await pt.edit(f'Cancelled at {j}/{n}. Success: {success}')
                     break
-                
+        
                 await update_batch_progress(uid, j, success)
-                
+        
                 mid = int(s) + j
-                
+        
                 try:
                     msg = await get_msg(ubot, uc, i, mid, lt)
                     if msg:
                         res = await process_msg(ubot, uc, msg, str(m.chat.id), lt, uid, i)
-                        if 'Done' in res or 'Copied' in res or 'Sent' in res:
+                        if any(x in res.lower() for x in ['done', 'copied', 'sent']):
                             success += 1
                     else:
                         pass
                 except Exception as e:
                     try: await pt.edit(f'{j+1}/{n}: Error - {str(e)[:30]}')
                     except: pass
-                
+        
                 await asyncio.sleep(10)
-            
+    
             if j+1 == n:
                 await m.reply_text(f'Batch Completed ✅ Success: {success}/{n}')
-        
+
         finally:
             await remove_active_batch(uid)
             Z.pop(uid, None)
+
