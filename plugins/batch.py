@@ -97,6 +97,7 @@ async def get_msg(c, u, i, d, lt):
                     if not emp[i]:
                         emp[i] = True
                         print(f"Bot chat found successfully...")
+                        print(f"==> [get_msg] returning: {xm}")  # ADD THIS BEFORE RETURN
                         return xm
                     
                 if emp[i]:
@@ -108,10 +109,12 @@ async def get_msg(c, u, i, d, lt):
                         try: await u.join_chat(i)
                         except: pass
                         xm = await u.get_messages((await u.get_chat(f"@{i}")).id, d)
+                        print(f"==> [get_msg] returning: {xm}")  # ADD THIS BEFORE RETURN
                     
                     return xm                   
             except Exception as e:
                 print(f'Error fetching public message: {e}')
+                print("==> [get_msg] returning: None")  # ADD THIS BEFORE final fallback return
                 return None
         else:
             if u:
@@ -143,6 +146,7 @@ async def get_msg(c, u, i, d, lt):
                     try:
                         result = await u.get_messages(chat_id_dash, d)
                         if result and not getattr(result, "empty", False):
+                            print(f"==> [get_msg] returning: {result}")  # ADD THIS BEFORE RETURN
                             return result
                     except Exception:
                         pass
@@ -152,18 +156,23 @@ async def get_msg(c, u, i, d, lt):
                         async for _ in u.get_dialogs(limit=200): pass
                         result = await u.get_messages(i, d)
                         if result and not getattr(result, "empty", False):
+                            print(f"==> [get_msg] returning: {result}")  # ADD THIS BEFORE RETURN
                             return result
                     except Exception:
                         pass
+                        print("==> [get_msg] returning: None")  # ADD THIS BEFORE final fallback return
                     
                     return None
                             
                 except Exception as e:
                     print(f'Private channel error: {e}')
+                    print("==> [get_msg] returning: None")  # ADD THIS BEFORE final fallback return
                     return None
+                    print("==> [get_msg] returning: None")  # ADD THIS BEFORE final fallback return
             return None
     except Exception as e:
         print(f'Error fetching message: {e}')
+            print("==> [get_msg] returning: None")  # ADD THIS BEFORE final fallback return
         return None
 
 
@@ -178,6 +187,7 @@ async def get_ubot(uid):
         return bot
     except Exception as e:
         print(f"Error starting bot for user {uid}: {e}")
+        print("==> [get_msg] returning: None")  # ADD THIS BEFORE final fallback return
         return None
 
 async def get_uclient(uid):
@@ -552,6 +562,7 @@ async def text_handler(c, m):
         finally:
             await remove_active_batch(uid)
             Z.pop(uid, None)
+
 
 
 
