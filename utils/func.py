@@ -57,16 +57,17 @@ def hhmmss(seconds):
 
 
 def E(L):   
-    private_match = re.match(r'https://t\.me/c/(\d+)/(?:\d+/)?(\d+)', L)
-    public_match = re.match(r'https://t\.me/([^/]+)/(?:\d+/)?(\d+)', L)
-    
+    L = L.strip()
+
+    private_match = re.match(r'(https?://)?t\.me/c/(\d+)/(?:\d+/)?(\d+)', L)
+    public_match = re.match(r'(https?://)?t\.me/([a-zA-Z0-9_]+)/(\d+)', L)
+
     if private_match:
-        return f'-100{private_match.group(1)}', int(private_match.group(2)), 'private'
+        return f'-100{private_match.group(2)}', int(private_match.group(3)), 'private'
     elif public_match:
-        return public_match.group(1), int(public_match.group(2)), 'public'
+        return public_match.group(2), int(public_match.group(3)), 'public'
     
     return None, None, None
-
 
 def get_display_name(user):
     if user.first_name and user.last_name:
