@@ -172,7 +172,7 @@ async def get_msg(c, u, i, d, lt):
             return None
     except Exception as e:
         print(f'Error fetching message: {e}')
-            print("==> [get_msg] returning: None")  # ADD THIS BEFORE final fallback return
+        print("==> [get_msg] returning: None")  # ADD THIS BEFORE final fallback return
         return None
 
 
@@ -562,6 +562,7 @@ async def text_handler(c, m):
         finally:
             await remove_active_batch(uid)
             Z.pop(uid, None)
+
 
 
 
