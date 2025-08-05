@@ -383,6 +383,7 @@ async def process_msg(c, u, m, d, lt, uid, i):
             await c.send_message(tcid, text=m.text.markdown, reply_to_message_id=rtmid)
             return 'Sent.'
     except Exception as e:
+        print(f"[ERROR] process_msg failed: {str(e)}")  # 👈 ADD THIS LINE
         return f'Error: {str(e)[:50]}'
 
 @X.on_message(filters.command(['batch', 'single']))
@@ -475,6 +476,7 @@ async def text_handler(c, m):
             else:
                 await pt.edit('Message not found')
         except Exception as e:
+            print(f"[ERROR] process_msg failed: {str(e)}")  # 👈 ADD THIS LINE
             await pt.edit(f'Error: {str(e)[:50]}')
         finally:
             Z.pop(uid, None)
@@ -538,6 +540,7 @@ async def text_handler(c, m):
                     else:
                         pass
                 except Exception as e:
+                    print(f"[ERROR] process_msg failed: {str(e)}")  # 👈 ADD THIS LINE
                     try: await pt.edit(f'{j+1}/{n}: Error - {str(e)[:30]}')
                     except: pass
         
@@ -549,6 +552,7 @@ async def text_handler(c, m):
         finally:
             await remove_active_batch(uid)
             Z.pop(uid, None)
+
 
 
 
