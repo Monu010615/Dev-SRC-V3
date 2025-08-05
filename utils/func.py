@@ -59,13 +59,13 @@ def hhmmss(seconds):
 def E(L):   
     L = L.strip()
 
-    private_match = re.match(r'(https?://)?t\.me/c/(\d+)/(?:\d+/)?(\d+)', L)
-    public_match = re.match(r'(https?://)?t\.me/([a-zA-Z0-9_]+)/(\d+)', L)
+    private_match = PRIVATE_LINK_PATTERN.match(L)
+    public_match = PUBLIC_LINK_PATTERN.match(L)
 
     if private_match:
-        return f'-100{private_match.group(2)}', int(private_match.group(3)), 'private'
+        return f"-100{private_match.group(3)}", int(private_match.group(5)), 'private'
     elif public_match:
-        return public_match.group(2), int(public_match.group(3)), 'public'
+        return public_match.group(3), int(public_match.group(5)), 'public'
     
     return None, None, None
 
