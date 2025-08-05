@@ -529,6 +529,7 @@ async def text_handler(c, m):
                     msg = await get_msg(ubot, uc, i, mid, lt)
                     if msg:
                         res = await process_msg(ubot, uc, msg, str(m.chat.id), lt, uid, i)
+                        print("==> Result from process_msg:", res)
                         if any(x in res.lower() for x in ['done', 'copied', 'sent']):
                             success += 1
                     else:
@@ -545,4 +546,5 @@ async def text_handler(c, m):
         finally:
             await remove_active_batch(uid)
             Z.pop(uid, None)
+
 
