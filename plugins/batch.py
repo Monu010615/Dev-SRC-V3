@@ -241,6 +241,7 @@ async def send_direct(c, m, tcid, ft=None, rtmid=None):
 
 async def process_msg(c, u, m, d, lt, uid, i):
     try:
+        print(f"==> START process_msg | mid: {d} | uid: {uid}")  # 👈 ADD THIS LINE
         cfg_chat = await get_user_data_key(d, 'chat_id', None)
         tcid = d
         rtmid = None
@@ -331,6 +332,7 @@ async def process_msg(c, u, m, d, lt, uid, i):
                 await c.copy_message(d, LOG_GROUP, sent.id)
                 os.remove(f)
                 await c.delete_messages(d, p.id)
+                print("==> RETURNING from process_msg:", 'Done.')  # 👈 ADD
                 
                 return 'Done (Large file).'
             
@@ -373,6 +375,7 @@ async def process_msg(c, u, m, d, lt, uid, i):
             
             os.remove(f)
             await c.delete_messages(d, p.id)
+            print("==> RETURNING from process_msg:", 'Done.')  # 👈 ADD
             
             return 'Done.'
             
@@ -546,5 +549,6 @@ async def text_handler(c, m):
         finally:
             await remove_active_batch(uid)
             Z.pop(uid, None)
+
 
 
